@@ -26,13 +26,14 @@ body {
     min-height: 100vh;
     padding: 20px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
 .container {
     width: 100%;
     max-width: 600px;
+    margin-bottom: 30px;
 }
 
 header {
@@ -306,5 +307,89 @@ header h1 {
         flex-direction: column;
         align-items: center;
         gap: 10px;
+    }
+}
+
+/* Estilos do Rodapé */
+.footer {
+    width: 100%;
+    padding: 0 20px;
+    margin-top: auto;
+}
+
+.footer-content {
+    background-color: var(--background-light);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.footer-name {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.footer-tagline {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    opacity: 0.9;
+}
+
+.footer-cta {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer-cta:hover {
+    color: var(--secondary-color);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 5px;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    background-color: var(--filter-hover);
+    color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.footer-link i {
+    font-size: 1.2rem;
+}
+
+/* Ajuste de responsividade para o rodapé */
+@media (max-width: 400px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .footer-content {
+        margin: 0 10px;
     }
 } 
