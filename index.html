@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lista de Tarefas</h1>
+        </header>
+        
+        <div class="todo-app">
+            <div class="add-task">
+                <input type="text" id="task-input" placeholder="Adicionar nova tarefa...">
+                <select id="difficulty-select">
+                    <option value="facil">Fácil</option>
+                    <option value="medio">Médio</option>
+                    <option value="dificil">Difícil</option>
+                </select>
+                <button id="add-button"><i class="fas fa-plus"></i></button>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <div class="filter-label">Status:</div>
+                    <div class="filter active" data-filter="all">Todas</div>
+                    <div class="filter" data-filter="active">Ativas</div>
+                    <div class="filter" data-filter="completed">Concluídas</div>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-label">Dificuldade:</div>
+                    <div class="difficulty-filter active" data-difficulty="all">Todas</div>
+                    <div class="difficulty-filter" data-difficulty="facil">Fácil</div>
+                    <div class="difficulty-filter" data-difficulty="medio">Médio</div>
+                    <div class="difficulty-filter" data-difficulty="dificil">Difícil</div>
+                </div>
+            </div>
+            
+            <ul id="task-list">
+                <!-- Tarefas serão adicionadas aqui pelo JavaScript -->
+            </ul>
+            
+            <div class="task-stats">
+                <span id="tasks-counter">0 tarefas restantes</span>
+                <button id="clear-completed">Limpar concluídas</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
