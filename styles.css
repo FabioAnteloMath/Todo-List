@@ -54,104 +54,115 @@ header h1 {
     padding: 25px;
 }
 
-.add-task {
-    display: flex;
+.add-task.card {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
     margin-bottom: 25px;
 }
 
-#task-input {
+.task-item {
+    border: none !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.task-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.task-item .card-body {
+    overflow: hidden;
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.task-text {
+    color: var(--text-color);
+    transition: color 0.3s;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    margin: 0;
+    padding: 0;
     flex: 1;
-    padding: 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px 0 0 6px;
+    min-width: 0;
     font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s;
+    line-height: 1.5;
 }
 
-#difficulty-select {
-    padding: 0 15px;
-    border: 1px solid var(--border-color);
-    border-left: none;
-    font-size: 0.9rem;
-    outline: none;
-    cursor: pointer;
-    background-color: white;
-    transition: border-color 0.3s;
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #999;
 }
 
-#task-input:focus, #difficulty-select:focus {
-    border-color: var(--primary-color);
+.task-description {
+    display: none;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
-#add-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0 20px;
-    border-radius: 0 6px 6px 0;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.task-description.show {
+    display: block;
 }
 
-#add-button:hover {
-    background-color: var(--secondary-color);
+.task-difficulty {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.task-edit-form {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .filters {
-    display: flex;
-    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 15px;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 15px;
-    gap: 15px;
 }
 
 .filter-group {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px 10px;
-}
-
-.filter-label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--text-color);
-    margin-right: 5px;
+    gap: 10px;
+    padding: 5px 0;
 }
 
 .filter, .difficulty-filter {
-    padding: 5px 10px;
+    padding: 5px 12px;
+    border-radius: 20px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
     font-size: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .filter:hover, .difficulty-filter:hover {
-    background-color: var(--filter-hover);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
 }
 
 .filter.active, .difficulty-filter.active {
-    color: var(--primary-color);
-    font-weight: bold;
-    border-bottom: 2px solid var(--primary-color);
-}
-
-.difficulty-filter[data-difficulty="facil"].active {
-    color: var(--difficulty-facil);
-    border-bottom-color: var(--difficulty-facil);
-}
-
-.difficulty-filter[data-difficulty="medio"].active {
-    color: var(--difficulty-medio);
-    border-bottom-color: var(--difficulty-medio);
-}
-
-.difficulty-filter[data-difficulty="dificil"].active {
-    color: var(--difficulty-dificil);
-    border-bottom-color: var(--difficulty-dificil);
+    background-color: var(--primary-color);
+    color: white;
 }
 
 #task-list {
@@ -165,22 +176,12 @@ header h1 {
     padding: 15px 0;
     border-bottom: 1px solid var(--border-color);
     animation: fadeIn 0.5s;
+    position: relative;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-.task-checkbox {
-    margin-right: 15px;
-    appearance: none;
-    width: 22px;
-    height: 22px;
-    border: 2px solid var(--primary-color);
-    border-radius: 5px;
-    position: relative;
-    cursor: pointer;
 }
 
 .task-checkbox:checked::before {
@@ -197,11 +198,7 @@ header h1 {
     flex: 1;
     display: flex;
     flex-direction: column;
-}
-
-.task-text {
-    font-size: 1rem;
-    transition: color 0.3s;
+    gap: 5px;
 }
 
 .task-difficulty {
@@ -220,11 +217,6 @@ header h1 {
 
 .task-difficulty.dificil {
     color: var(--difficulty-dificil);
-}
-
-.task-item.completed .task-text {
-    text-decoration: line-through;
-    color: #999;
 }
 
 .task-delete {
@@ -260,6 +252,50 @@ header h1 {
 
 #clear-completed:hover {
     opacity: 1;
+}
+
+.task-edit-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.task-edit-button, .task-save-button, .task-cancel-button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.task-edit-button {
+    background-color: var(--filter-hover);
+    color: var(--text-color);
+}
+
+.task-save-button {
+    background-color: var(--completed-color);
+    color: white;
+}
+
+.task-cancel-button {
+    background-color: var(--delete-color);
+    color: white;
+}
+
+.task-expand-button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    margin-top: 5px;
+}
+
+.task-expand-button:hover {
+    text-decoration: underline;
 }
 
 /* Responsividade */
@@ -391,5 +427,52 @@ header h1 {
     
     .footer-content {
         margin: 0 10px;
+    }
+}
+
+/* Ajuste do layout do cabeçalho da tarefa */
+.task-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    width: 100%;
+}
+
+.task-content-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.task-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 576px) {
+    .task-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .task-content-wrapper {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .task-checkbox {
+        margin-top: 0;
+    }
+
+    .task-actions {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 10px;
     }
 } 

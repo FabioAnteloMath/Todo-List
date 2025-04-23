@@ -1,5 +1,6 @@
 // Selecionando elementos DOM
 const taskInput = document.getElementById('task-input');
+const taskDescription = document.getElementById('task-description');
 const difficultySelect = document.getElementById('difficulty-select');
 const addButton = document.getElementById('add-button');
 const taskList = document.getElementById('task-list');
@@ -66,12 +67,14 @@ difficultyFilters.forEach(filter => {
 // Função para adicionar uma nova tarefa
 function addTask() {
     const taskText = taskInput.value.trim();
+    const description = taskDescription.value.trim();
     
     if (taskText === '') return;
     
     const newTask = {
         id: Date.now(),
         text: taskText,
+        description: description,
         difficulty: difficultySelect.value,
         completed: false
     };
@@ -81,65 +84,106 @@ function addTask() {
     renderTasks();
     updateTasksCounter();
     
-    // Limpar o campo de entrada
+    // Limpar os campos
     taskInput.value = '';
+    taskDescription.value = '';
     taskInput.focus();
 }
 
 // Função para criar elemento de tarefa
 function createTaskElement(task) {
     const taskItem = document.createElement('li');
-    taskItem.classList.add('task-item');
+    taskItem.classList.add('task-item', 'card', 'mb-3');
     if (task.completed) {
         taskItem.classList.add('completed');
     }
     taskItem.setAttribute('data-id', task.id);
     
+    const taskContent = document.createElement('div');
+    taskContent.classList.add('card-body');
+    
+    const taskHeader = document.createElement('div');
+    taskHeader.classList.add('task-header');
+    
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.classList.add('task-checkbox');
+    checkbox.classList.add('task-checkbox', 'form-check-input');
     checkbox.checked = task.completed;
     checkbox.addEventListener('change', () => toggleTaskStatus(task.id));
     
-    const taskContent = document.createElement('div');
-    taskContent.classList.add('task-content');
+    const contentWrapper = document.createElement('div');
+    contentWrapper.classList.add('task-content-wrapper');
     
-    const taskText = document.createElement('span');
-    taskText.classList.add('task-text');
+    const taskText = document.createElement('h5');
+    taskText.classList.add('task-text', 'card-title', 'mb-0');
     taskText.textContent = task.text;
     
     const taskDifficulty = document.createElement('span');
-    taskDifficulty.classList.add('task-difficulty', task.difficulty);
+    taskDifficulty.classList.add('task-difficulty', 'badge');
     
-    // Definir o texto da dificuldade em português
     let difficultyText = '';
     switch(task.difficulty) {
         case 'facil':
             difficultyText = 'Fácil';
+            taskDifficulty.classList.add('bg-success');
             break;
         case 'medio':
             difficultyText = 'Médio';
+            taskDifficulty.classList.add('bg-warning');
             break;
         case 'dificil':
             difficultyText = 'Difícil';
+            taskDifficulty.classList.add('bg-danger');
             break;
         default:
             difficultyText = 'Fácil';
+            taskDifficulty.classList.add('bg-success');
     }
     
     taskDifficulty.textContent = difficultyText;
     
+    const actionButtons = document.createElement('div');
+    actionButtons.classList.add('task-actions');
+    
+    const editButton = document.createElement('button');
+    editButton.classList.add('btn', 'btn-sm', 'btn-outline-primary');
+    editButton.innerHTML = '<i class="fas fa-edit"></i>';
+    editButton.addEventListener('click', () => startEditing(task.id));
+    
     const deleteBtn = document.createElement('button');
-    deleteBtn.classList.add('task-delete');
+    deleteBtn.classList.add('btn', 'btn-sm', 'btn-outline-danger');
     deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
     deleteBtn.addEventListener('click', () => deleteTask(task.id));
     
-    taskContent.appendChild(taskText);
-    taskContent.appendChild(taskDifficulty);
+    actionButtons.appendChild(editButton);
+    actionButtons.appendChild(deleteBtn);
     
-    taskItem.appendChild(checkbox);
+    contentWrapper.appendChild(taskText);
+    contentWrapper.appendChild(taskDifficulty);
+    
+    taskHeader.appendChild(checkbox);
+    taskHeader.appendChild(contentWrapper);
+    taskHeader.appendChild(actionButtons);
+    
+    taskContent.appendChild(taskHeader);
+    
+    if (task.description) {
+        const taskDescription = document.createElement('p');
+        taskDescription.classList.add('task-description', 'card-text', 'text-muted', 'mt-2', 'mb-0', 'collapse');
+        taskDescription.textContent = task.description;
+        taskDescription.id = `description-${task.id}`;
+        
+        const expandButton = document.createElement('button');
+        expandButton.classList.add('btn', 'btn-link', 'btn-sm', 'p-0', 'mt-2');
+        expandButton.setAttribute('data-bs-toggle', 'collapse');
+        expandButton.setAttribute('data-bs-target', `#description-${task.id}`);
+        expandButton.innerHTML = '<i class="fas fa-chevron-down me-1"></i>Ver descrição';
+        
+        taskContent.appendChild(taskDescription);
+        taskContent.appendChild(expandButton);
+    }
+    
     taskItem.appendChild(taskContent);
-    taskItem.appendChild(deleteBtn);
     
     return taskItem;
 }
@@ -217,4 +261,72 @@ function loadTasks() {
     if (savedTasks) {
         tasks = JSON.parse(savedTasks);
     }
+}
+
+function startEditing(taskId) {
+    const taskItem = document.querySelector(`li[data-id="${taskId}"]`);
+    const task = tasks.find(t => t.id === taskId);
+    const taskContent = taskItem.querySelector('.card-body');
+    
+    const editForm = document.createElement('div');
+    editForm.classList.add('task-edit-form');
+    
+    editForm.innerHTML = `
+        <div class="mb-3">
+            <label class="form-label">Título da Tarefa</label>
+            <input type="text" class="form-control" value="${task.text}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Descrição</label>
+            <textarea class="form-control" rows="2">${task.description || ''}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Dificuldade</label>
+            <select class="form-select">
+                <option value="facil" ${task.difficulty === 'facil' ? 'selected' : ''}>Fácil</option>
+                <option value="medio" ${task.difficulty === 'medio' ? 'selected' : ''}>Médio</option>
+                <option value="dificil" ${task.difficulty === 'dificil' ? 'selected' : ''}>Difícil</option>
+            </select>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-success save-edit">Salvar</button>
+            <button class="btn btn-secondary cancel-edit">Cancelar</button>
+        </div>
+    `;
+    
+    const saveButton = editForm.querySelector('.save-edit');
+    const cancelButton = editForm.querySelector('.cancel-edit');
+    const editInput = editForm.querySelector('input');
+    const editDescription = editForm.querySelector('textarea');
+    const editDifficulty = editForm.querySelector('select');
+    
+    saveButton.addEventListener('click', () => 
+        saveEdit(taskId, editInput.value, editDescription.value, editDifficulty.value)
+    );
+    
+    cancelButton.addEventListener('click', () => cancelEdit(taskId));
+    
+    taskContent.style.display = 'none';
+    taskItem.appendChild(editForm);
+}
+
+function saveEdit(taskId, newText, newDescription, newDifficulty) {
+    tasks = tasks.map(task => {
+        if (task.id === taskId) {
+            return {
+                ...task,
+                text: newText.trim(),
+                description: newDescription.trim(),
+                difficulty: newDifficulty
+            };
+        }
+        return task;
+    });
+    
+    saveTasks();
+    renderTasks();
+}
+
+function cancelEdit(taskId) {
+    renderTasks();
 } 
