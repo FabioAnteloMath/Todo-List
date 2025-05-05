@@ -5,7 +5,7 @@ const config = require('../config/database');
 
 exports.register = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
         if (!name || !email || !password) {
             return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
         }
@@ -14,7 +14,14 @@ exports.register = async (req, res) => {
             return res.status(400).json({ error: 'Email já cadastrado' });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-        await userModel.createUser(name, email, hashedPassword);
+        
+        // Verificar se quem está criando o usuário é um admin
+        let userRole = 'user';
+        if (req.user && req.user.role === 'admin' && role) {
+            userRole = role;
+        }
+        
+        await userModel.createUser(name, email, hashedPassword, userRole);
         res.status(201).json({ message: 'Usuário criado com sucesso' });
     } catch (error) {
         console.error('Erro no registro:', error);

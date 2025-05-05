@@ -10,9 +10,9 @@ exports.getUserByEmail = (email) => {
     });
 };
 
-exports.createUser = (name, email, password) => {
+exports.createUser = (name, email, password, role = 'user') => {
     return new Promise((resolve, reject) => {
-        db.run('INSERT INTO users (name, email, password, role, is_active) VALUES (?, ?, ?, ?, 1)', [name, email, password, 'user'], function(err) {
+        db.run('INSERT INTO users (name, email, password, role, is_active) VALUES (?, ?, ?, ?, 1)', [name, email, password, role], function(err) {
             if (err) return reject(err);
             resolve(this.lastID);
         });

@@ -26,8 +26,8 @@ let isAdmin = false;
 let activeStatusFilter = 'all';
 let activeDifficultyFilter = 'all';
 
-// API URLs
-const API_BASE_URL = 'http://localhost:8080/api';
+// Configurações da API
+const API_BASE_URL = 'https://matheusfabioantelo.github.io/Projeto-TO-DO/api';
 
 // Variável para controlar número de notificações
 let pendingNotifications = 0;

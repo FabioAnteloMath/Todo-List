@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo - Lista de Tarefas</title>
+    <title>Gerenciamento de Usuários - Lista de Tarefas</title>
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='2' fill='%233a86ff'/><path d='M6.5 12.5l-3-3 1-1 2 2 5-5 1 1z' fill='white'/></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -23,9 +23,9 @@
                     <i class="fas fa-tasks"></i>
                     Ver Tarefas
                 </a>
-                <a href="/user-management.html" class="navbar-button">
-                    <i class="fas fa-users"></i>
-                    Gerenciar Usuários
+                <a href="/admin.html" class="navbar-button">
+                    <i class="fas fa-cog"></i>
+                    Painel Admin
                 </a>
                 <button onclick="handleLogout()" class="navbar-logout">
                     <i class="fas fa-sign-out-alt"></i>
@@ -37,43 +37,63 @@
 
     <div class="container">
         <div class="admin-header">
-            <h2>Painel Administrativo</h2>
+            <h2>Gerenciamento de Usuários</h2>
             <div class="admin-tabs">
-                <button class="admin-tab active" data-tab="pending">
-                    <i class="fas fa-clock"></i>
-                    Tarefas Pendentes
+                <button class="admin-tab active" data-tab="users">
+                    <i class="fas fa-list"></i>
+                    Lista de Usuários
                 </button>
-                <button class="admin-tab" data-tab="approved">
-                    <i class="fas fa-check-circle"></i>
-                    Tarefas Aprovadas
+                <button class="admin-tab" data-tab="new-user">
+                    <i class="fas fa-user-plus"></i>
+                    Novo Usuário
                 </button>
             </div>
         </div>
 
-        <div id="pending-tasks" class="admin-content active">
-            <h3>Tarefas Aguardando Aprovação</h3>
-            <div class="admin-task-list">
-                <!-- Template para os botões de ação -->
-                <template id="task-actions-template">
-                    <div class="admin-task-actions">
-                        <button class="btn-action btn-approve" onclick="approveTask(this)" data-task-id="">
-                            <i class="fas fa-check"></i>
-                            Aprovar
-                        </button>
-                        <button class="btn-action btn-delete" onclick="deleteTask(this)" data-task-id="">
-                            <i class="fas fa-trash"></i>
-                            Excluir
-                        </button>
-                    </div>
-                </template>
+        <div id="users-list" class="admin-content active">
+            <h3>Usuários Cadastrados</h3>
+            <div id="users-table" class="users-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Função</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Os usuários serão inseridos aqui -->
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div id="approved-tasks" class="admin-content">
-            <h3>Tarefas Aprovadas</h3>
-            <div class="admin-task-list">
-                <!-- Tarefas aprovadas serão adicionadas aqui -->
-            </div>
+        <div id="new-user" class="admin-content">
+            <h3>Adicionar Novo Usuário</h3>
+            <form id="new-user-form" class="user-form">
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Função</label>
+                    <select id="role" name="role" class="form-control">
+                        <option value="user">Usuário</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Criar Usuário</button>
+            </form>
         </div>
     </div>
     
@@ -105,7 +125,9 @@
         </div>
     </footer>
 
+    <div id="notification" class="notification"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="admin.js"></script>
+    <script src="js/user-management.js"></script>
 </body>
 </html> 

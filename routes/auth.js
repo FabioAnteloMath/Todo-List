@@ -7,7 +7,19 @@ const authController = require('../controllers/authController');
 const router = express.Router();
 
 // Registro de usuário
-router.post('/register', authController.register);
+router.post('/register', async (req, res, next) => {
+    // Se o role for especificado e não for 'user', verificar se o usuário é admin
+    if (req.body.role && req.body.role !== 'user') {
+        return authenticateToken(req, res, () => {
+            isAdmin(req, res, () => {
+                authController.register(req, res);
+            });
+        });
+    }
+    
+    // Caso contrário, permite o registro normal
+    return authController.register(req, res);
+});
 
 // Login
 router.post('/login', authController.login);
