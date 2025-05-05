@@ -1,130 +1,123 @@
-# Lista de Tarefas
+# Lista de Tarefas - Full Stack (MVC)
 
-Uma aplicação moderna e responsiva de lista de tarefas construída com HTML, CSS e JavaScript, com foco em usabilidade e design elegante.
+Uma aplicação moderna e responsiva de lista de tarefas, construída com Node.js, Express, SQLite, HTML, CSS e JavaScript. O projeto segue o padrão de arquitetura **MVC** (Model-View-Controller), com autenticação JWT, painel administrativo e interface intuitiva.
 
-## Funcionalidades
+---
 
-### Gerenciamento de Tarefas
-- Adicionar novas tarefas com título e descrição
-- Definir nível de dificuldade (Fácil, Médio, Difícil)
-- Marcar tarefas como concluídas
-- Editar tarefas existentes
-- Excluir tarefas individualmente
-- Expandir/recolher descrições de tarefas
-- Limpar todas as tarefas concluídas
+## 🚀 Funcionalidades
 
-### Filtros e Organização
-- Filtrar tarefas por status:
-  - Todas
-  - Ativas
-  - Concluídas
-- Filtrar por nível de dificuldade:
-  - Todas
-  - Fácil
-  - Médio
-  - Difícil
-- Contador de tarefas pendentes
+- **Autenticação de Usuários** (login, registro, JWT)
+- **Painel Administrativo** para gerenciamento de tarefas e usuários
+- **CRUD de Tarefas** (criar, listar, editar, excluir, aprovar)
+- **Atribuição de tarefas** a usuários
+- **Filtros por status e dificuldade**
+- **Design responsivo** (desktop, tablet, mobile)
+- **Interface moderna** com Bootstrap 5 e animações
+- **Permissões** (admin/usuário)
+- **Banco de dados SQLite** persistente
 
-### Design e Interface
-- Design responsivo para todos os dispositivos
-- Interface moderna com efeitos de glass morphism
-- Animações suaves e feedback visual
-- Suporte a textos longos com quebra automática
-- Layout adaptativo e organizado
-- Temas de cores consistentes
-- Ícones intuitivos
+---
 
-### Recursos Técnicos
-- Armazenamento local (localStorage) para persistência de dados
-- Componentes reutilizáveis
-- Tratamento de overflow de texto
-- Validações de entrada
-- Design responsivo com Bootstrap 5
-- Otimizações de performance
+## 🛠️ Tecnologias Utilizadas
 
-## Tecnologias Utilizadas
+- **Backend:** Node.js, Express, SQLite, JWT, bcryptjs, cookie-parser, cors
+- **Frontend:** HTML5, CSS3 (Flexbox, Grid, Variáveis, Animações), Bootstrap 5, JavaScript Vanilla
+- **Arquitetura:** MVC (Model-View-Controller)
 
-- HTML5
-- CSS3
-  - Flexbox
-  - CSS Grid
-  - Media Queries
-  - Variáveis CSS
-  - Animações
-- JavaScript (Vanilla JS)
-- Bootstrap 5
-- Font Awesome Icons
-- Local Storage API
+---
 
-## Como Usar
+## 📁 Estrutura de Pastas
 
-1. Clone este repositório ou baixe os arquivos
-2. Abra o arquivo `index.html` em qualquer navegador moderno
-3. Comece a gerenciar suas tarefas!
-
-### Adicionando uma Tarefa
-1. Digite o título da tarefa no campo principal
-2. Adicione uma descrição (opcional)
-3. Selecione o nível de dificuldade
-4. Clique no botão "Adicionar" ou pressione Enter
-
-### Gerenciando Tarefas
-- Clique no checkbox para marcar como concluída
-- Use o botão de edição (ícone de lápis) para modificar
-- Use o botão de lixeira para excluir
-- Clique em "Ver descrição" para expandir detalhes
-- Use os filtros para organizar sua visualização
-
-## Personalização
-
-O projeto utiliza variáveis CSS que podem ser facilmente personalizadas:
-
-```css
-:root {
-    --primary-color: #3a86ff;
-    --secondary-color: #8338ec;
-    --completed-color: #38b000;
-    --delete-color: #e63946;
-    --background-light: #ffffff;
-    --text-color: #333333;
-    --border-color: #e1e1e1;
-}
+```
+/
+├── config/           # Configuração do banco de dados
+│   └── database.js
+├── controllers/      # Lógica de negócio (Controllers)
+│   ├── authController.js
+│   └── taskController.js
+├── models/           # Acesso ao banco de dados (Models)
+│   ├── userModel.js
+│   └── taskModel.js
+├── routes/           # Definição das rotas Express
+│   ├── auth.js
+│   └── task.js
+├── public/           # Frontend (HTML, CSS, JS)
+│   ├── index.html
+│   ├── login.html
+│   ├── admin.html
+│   ├── script.js
+│   ├── admin.js
+│   ├── styles.css
+│   └── admin.css
+├── server.js         # Inicialização do app e rotas globais
+├── tasks.db          # Banco de dados SQLite
+└── package.json
 ```
 
-## Responsividade
+---
 
-A aplicação é totalmente responsiva e se adapta a diferentes tamanhos de tela:
-- Desktop: Layout completo com todas as funcionalidades
-- Tablet: Layout adaptativo com reorganização de elementos
-- Mobile: Interface otimizada para toque e visualização em tela pequena
+## ⚙️ Como rodar o projeto
 
-## Desenvolvedor
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/FabioAnteloMath/Todo-List.git
+   cd Todo-List
+   ```
 
-Matheus Fabio Antelo
-- [LinkedIn](https://www.linkedin.com/in/matheusfabio)
-- [GitHub](https://github.com/FabioAnteloMath)
-- Email: matheusf.antelo@gmail.com
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
 
-## Contribuições
+3. **Inicie o servidor:**
+   ```bash
+   npm start
+   ```
+   O servidor estará disponível em [http://localhost:8080](http://localhost:8080)
 
-Contribuições são bem-vindas! Sinta-se à vontade para:
-1. Fazer um fork do projeto
-2. Criar uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abrir um Pull Request
+4. **Acesse a aplicação:**
+   - Frontend: [http://localhost:8080](http://localhost:8080)
+   - Login/Admin: [http://localhost:8080/login.html](http://localhost:8080/login.html)
 
-## Estrutura de Arquivos
+---
 
-- `index.html` - Estrutura HTML da aplicação
-- `styles.css` - Estilos e responsividade da aplicação
-- `script.js` - Lógica e funcionalidades da aplicação
+## 👤 Usuários e Permissões
 
-## Instruções
+- **Usuário comum:** pode visualizar e concluir tarefas atribuídas a ele.
+- **Administrador:** pode criar, editar, excluir, aprovar tarefas e gerenciar usuários.
 
-1. Digite o texto da tarefa no campo principal
-2. Selecione o nível de dificuldade no menu dropdown (Fácil, Médio, Difícil)
-3. Clique no botão (+) ou pressione Enter para adicionar a tarefa
-4. Use os filtros de Status e Dificuldade para organizar suas tarefas
-5. Marque as tarefas como concluídas clicando no checkbox
-6. Remova tarefas individualmente clicando no ícone de lixeira
+---
+
+## 📝 Exemplos de Uso
+
+- **Registrar e logar:** Acesse `/login.html` para criar uma conta ou fazer login.
+- **Criar tarefa:** Apenas administradores podem criar tarefas e atribuí-las a usuários.
+- **Aprovar tarefa:** Apenas administradores podem aprovar tarefas concluídas.
+- **Editar perfil:** Usuários podem atualizar nome, email e senha.
+
+---
+
+## 💡 Personalização
+
+- As cores e estilos podem ser alterados facilmente em `public/styles.css` usando variáveis CSS.
+- O banco de dados é um arquivo local `tasks.db` (SQLite), fácil de backup e portabilidade.
+
+---
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Siga os passos:
+1. Faça um fork do projeto
+2. Crie uma branch (`git checkout -b feature/NomeDaFeature`)
+3. Commit suas mudanças (`git commit -m 'feat: Minha nova feature'`)
+4. Push para seu fork (`git push origin feature/NomeDaFeature`)
+5. Abra um Pull Request
+
+---
+
+## 👨‍💻 Autor
+
+Matheus Fabio Antelo  
+[LinkedIn](https://www.linkedin.com/in/matheusfabio)  
+[GitHub](https://github.com/FabioAnteloMath)  
+Email: matheusf.antelo@gmail.com

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='2' fill='%233a86ff'/><path d='M6.5 12.5l-3-3 1-1 2 2 5-5 1 1z' fill='white'/></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <i class="fas fa-check-double"></i>
+                Lista de Tarefas
+            </a>
+            <div class="navbar-user">
+                <span class="navbar-username">Olá, <span id="user-name">Usuário</span></span>
+                <button id="admin-panel" class="navbar-button" style="display: none;">
+                    <i class="fas fa-cogs"></i>
+                    Painel Admin
+                    <span class="notification-badge" style="display: none;">0</span>
+                </button>
+                <button onclick="handleLogout()" class="navbar-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="todo-app">
+            <div class="add-task card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <input type="text" id="task-input" class="form-control" placeholder="Adicionar nova tarefa...">
+                    </div>
+                    <div class="mb-3">
+                        <textarea id="task-description" class="form-control" placeholder="Descrição da tarefa (opcional)..." rows="2"></textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="assigned-user" class="form-label">Atribuir para:</label>
+                            <select id="assigned-user" class="form-select">
+                                <option value="">Selecione um usuário</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="due-date" class="form-label">Data de entrega:</label>
+                            <input type="datetime-local" id="due-date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <select id="difficulty-select" class="form-select">
+                                <option value="facil">Fácil</option>
+                                <option value="medio">Médio</option>
+                                <option value="dificil">Difícil</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <button id="add-button" class="btn btn-primary w-100">
+                                <i class="fas fa-plus"></i> Adicionar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <div class="filter-label">Status:</div>
+                    <div class="filter active" data-filter="all">Todas</div>
+                    <div class="filter" data-filter="active">Ativas</div>
+                    <div class="filter" data-filter="completed">Concluídas</div>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-label">Dificuldade:</div>
+                    <div class="difficulty-filter active" data-difficulty="all">Todas</div>
+                    <div class="difficulty-filter" data-difficulty="facil">Fácil</div>
+                    <div class="difficulty-filter" data-difficulty="medio">Médio</div>
+                    <div class="difficulty-filter" data-difficulty="dificil">Difícil</div>
+                </div>
+            </div>
+            
+            <ul id="task-list">
+                <!-- Tarefas serão adicionadas aqui pelo JavaScript -->
+            </ul>
+            
+            <div class="task-stats">
+                <span id="tasks-counter">0 tarefas restantes</span>
+                <button id="clear-completed" style="display: none;">Limpar concluídas</button>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p class="footer-name">Matheus Fabio Antelo</p>
+                    <p class="footer-tagline">Desenvolvedor Full Stack!</p>
+                    <p class="footer-cta">Aberto a novas oportunidades e colaborações</p>
+                    <div class="footer-links">
+                        <a href="https://www.linkedin.com/in/matheusfabio" target="_blank" class="footer-link">
+                            <i class="fab fa-linkedin"></i>
+                            LinkedIn
+                        </a>
+                        <a href="https://github.com/FabioAnteloMath" target="_blank" class="footer-link">
+                            <i class="fab fa-github"></i>
+                            GitHub
+                        </a>
+                        <a href="mailto:matheusf.antelo@gmail.com" class="footer-link">
+                            <i class="far fa-envelope"></i>
+                            Email
+                        </a>
+                        <a href="tel:+551196318-7136" class="footer-link">
+                            <i class="fas fa-phone"></i>
+                            Telefone
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Modal de Edição -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Editar Tarefa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-form" onsubmit="handleEditSubmit(event)">
+                        <div class="mb-3">
+                            <label for="edit-text" class="form-label">Texto da Tarefa</label>
+                            <input type="text" class="form-control" id="edit-text" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-description" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="edit-description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-difficulty" class="form-label">Dificuldade</label>
+                            <select class="form-select" id="edit-difficulty">
+                                <option value="fácil">Fácil</option>
+                                <option value="médio">Médio</option>
+                                <option value="difícil">Difícil</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-assigned-to" class="form-label">Atribuído a</label>
+                            <select class="form-select" id="edit-assigned-to">
+                                <option value="">Selecione um usuário</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-due-date" class="form-label">Data de Entrega</label>
+                            <input type="date" class="form-control" id="edit-due-date">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

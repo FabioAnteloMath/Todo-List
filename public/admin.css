@@ -1,0 +1,275 @@
+/* Estilos gerais do painel admin */
+body {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.admin-header {
+    background-color: white;
+    padding: 25px;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+.admin-header h2 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.admin-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.admin-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-nav-right {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-greeting {
+    font-size: 1.1em;
+    color: #333;
+}
+
+/* Estilos das tabs */
+.admin-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+.admin-tab {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.admin-tab i {
+    margin-right: 0.5rem;
+}
+
+.admin-tab:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.admin-tab.active {
+    background-color: #3a86ff;
+    color: white;
+}
+
+/* Conteúdo das tabs */
+.admin-content {
+    display: none;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.admin-content.active {
+    display: block;
+}
+
+.admin-content h3 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+/* Lista de tarefas */
+.admin-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.admin-task-item {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.admin-task-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.admin-task-info {
+    flex-grow: 1;
+}
+
+.admin-task-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.admin-task-details {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Botões de ação */
+.admin-task-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-action {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-approve {
+    background-color: #40c057;
+    color: white;
+}
+
+.btn-approve:hover {
+    background-color: #37a84d;
+}
+
+.btn-delete {
+    background-color: #fa5252;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #e03131;
+}
+
+/* Notificações */
+.notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    color: white;
+    animation: slideIn 0.3s ease;
+    z-index: 1000;
+}
+
+.notification.success {
+    background-color: #40c057;
+}
+
+.notification.error {
+    background-color: #fa5252;
+}
+
+/* Mensagem de nenhuma tarefa */
+.no-tasks {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-style: italic;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 25px;
+    border: 1px dashed #ddd;
+}
+
+/* Animações */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 650px) {
+    .container {
+        width: 95%;
+        padding: 0;
+    }
+    
+    .admin-content {
+        width: 100%;
+    }
+
+    .admin-header {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .admin-tabs {
+        margin: 0 -20px;
+        padding: 0 20px;
+        gap: 10px;
+    }
+
+    .admin-tab {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    .admin-content h3 {
+        padding: 20px;
+    }
+
+    .admin-task-list {
+        padding: 20px;
+    }
+
+    .admin-task-item {
+        flex-direction: column;
+    }
+
+    .admin-task-info {
+        margin-right: 0;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .admin-task-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+} 
