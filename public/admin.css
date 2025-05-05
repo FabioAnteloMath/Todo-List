@@ -354,4 +354,84 @@ body {
     .action-buttons {
         flex-direction: column;
     }
+}
+
+/* Estilos específicos para a barra de navegação do administrador */
+.admin-navbar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.admin-nav-link i {
+    font-size: 1rem;
+}
+
+.admin-nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.admin-nav-link.active {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+/* Botão de logout no navbar do admin */
+.admin-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.admin-logout-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .admin-navbar {
+        margin-top: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .navbar-username {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-navbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .admin-nav-link, .admin-logout-btn {
+        width: 100%;
+        justify-content: center;
+    }
 } 

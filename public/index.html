@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='2' fill='%233a86ff'/><path d='M6.5 12.5l-3-3 1-1 2 2 5-5 1 1z' fill='white'/></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -18,15 +19,17 @@
             </a>
             <div class="navbar-user">
                 <span class="navbar-username">Olá, <span id="user-name">Usuário</span></span>
-                <button id="admin-panel" class="navbar-button" style="display: none;">
-                    <i class="fas fa-cogs"></i>
-                    Painel Admin
-                    <span class="notification-badge" style="display: none;">0</span>
-                </button>
-                <button onclick="handleLogout()" class="navbar-logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Sair
-                </button>
+                <div class="admin-navbar">
+                    <a id="admin-panel" href="/admin.html" class="admin-nav-link" style="display: none;">
+                        <i class="fas fa-cogs"></i>
+                        Painel Admin
+                        <span class="notification-badge" style="display: none;">0</span>
+                    </a>
+                    <button onclick="handleLogout()" class="admin-logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sair
+                    </button>
+                </div>
             </div>
         </div>
     </nav>

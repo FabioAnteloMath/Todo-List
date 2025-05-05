@@ -19,18 +19,20 @@
             </a>
             <div class="navbar-user">
                 <span class="navbar-username">Olá, <span id="user-name">Administrador</span></span>
-                <a href="/" class="navbar-button">
-                    <i class="fas fa-tasks"></i>
-                    Ver Tarefas
-                </a>
-                <a href="/user-management.html" class="navbar-button">
-                    <i class="fas fa-users"></i>
-                    Gerenciar Usuários
-                </a>
-                <button onclick="handleLogout()" class="navbar-logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Sair
-                </button>
+                <div class="admin-navbar">
+                    <a href="/" class="admin-nav-link">
+                        <i class="fas fa-tasks"></i>
+                        Ver Tarefas
+                    </a>
+                    <a href="/user-management.html" class="admin-nav-link">
+                        <i class="fas fa-users"></i>
+                        Gerenciar Usuários
+                    </a>
+                    <button onclick="handleLogout()" class="admin-logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sair
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
