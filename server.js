@@ -19,6 +19,28 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware para logging de requisições
+app.use((req, res, next) => {
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] ${req.method} ${req.originalUrl}`);
+    
+    // Para métodos POST e PUT, logar também o corpo da requisição (sem senhas)
+    if ((req.method === 'POST' || req.method === 'PUT') && req.body) {
+        // Fazer uma cópia do corpo para não modificar a requisição original
+        const bodyCopy = { ...req.body };
+        
+        // Ocultar senhas por segurança
+        if (bodyCopy.password) bodyCopy.password = '[REDACTED]';
+        if (bodyCopy.newPassword) bodyCopy.newPassword = '[REDACTED]';
+        if (bodyCopy.currentPassword) bodyCopy.currentPassword = '[REDACTED]';
+        
+        console.log(`[${timestamp}] Corpo da requisição:`, bodyCopy);
+    }
+    
+    next();
+});
 
 // Configuração para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,6 +58,11 @@ app.get('/admin.html', (req, res) => {
 // Rota para servir o arquivo login.html
 app.get('/login.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+// Rota para servir a página de teste de alteração de senha
+app.get('/test-password.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'test-password.html'));
 });
 
 // Rotas

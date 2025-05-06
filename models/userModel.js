@@ -53,13 +53,19 @@ exports.updateUserProfile = (id, name, email, password = null) => {
         if (password) {
             query = 'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?';
             params = [name, email, password, id];
+            console.log('Atualizando perfil COM senha:', { id, name, email, temSenha: true });
         } else {
             query = 'UPDATE users SET name = ?, email = ? WHERE id = ?';
             params = [name, email, id];
+            console.log('Atualizando perfil SEM senha:', { id, name, email });
         }
         
         db.run(query, params, function(err) {
-            if (err) return reject(err);
+            if (err) {
+                console.error('Erro ao atualizar perfil no banco:', err);
+                return reject(err);
+            }
+            console.log('Perfil atualizado com sucesso. Registros alterados:', this.changes);
             resolve(this.changes);
         });
     });

@@ -7,6 +7,10 @@ Uma aplicação moderna e responsiva de lista de tarefas, construída com Node.j
 ## 🚀 Funcionalidades
 
 - **Autenticação de Usuários** (login, registro, JWT)
+- **Gerenciamento de Perfil**
+  - Visualização e edição de dados pessoais
+  - Alteração de senha com validação
+  - Email armazenado no token JWT
 - **Painel Administrativo** para gerenciamento de tarefas e usuários
 - **CRUD de Tarefas** (criar, listar, editar, excluir, aprovar)
 - **Atribuição de tarefas** a usuários
@@ -15,6 +19,7 @@ Uma aplicação moderna e responsiva de lista de tarefas, construída com Node.j
 - **Interface moderna** com Bootstrap 5 e animações
 - **Permissões** (admin/usuário)
 - **Banco de dados SQLite** persistente
+- **Sistema de Logs** para debugging e monitoramento
 
 ---
 
@@ -23,6 +28,7 @@ Uma aplicação moderna e responsiva de lista de tarefas, construída com Node.j
 - **Backend:** Node.js, Express, SQLite, JWT, bcryptjs, cookie-parser, cors
 - **Frontend:** HTML5, CSS3 (Flexbox, Grid, Variáveis, Animações), Bootstrap 5, JavaScript Vanilla
 - **Arquitetura:** MVC (Model-View-Controller)
+- **Segurança:** Validação de senhas, tokens JWT com informações do usuário
 
 ---
 
@@ -45,8 +51,11 @@ Uma aplicação moderna e responsiva de lista de tarefas, construída com Node.j
 │   ├── index.html
 │   ├── login.html
 │   ├── admin.html
+│   ├── profile.html
+│   ├── test-password.html
 │   ├── script.js
 │   ├── admin.js
+│   ├── profile.js
 │   ├── styles.css
 │   └── admin.css
 ├── server.js         # Inicialização do app e rotas globais
@@ -93,7 +102,11 @@ Uma aplicação moderna e responsiva de lista de tarefas, construída com Node.j
 - **Registrar e logar:** Acesse `/login.html` para criar uma conta ou fazer login.
 - **Criar tarefa:** Apenas administradores podem criar tarefas e atribuí-las a usuários.
 - **Aprovar tarefa:** Apenas administradores podem aprovar tarefas concluídas.
-- **Editar perfil:** Usuários podem atualizar nome, email e senha.
+- **Gerenciar perfil:** 
+  - Acesse `/profile.html` para visualizar e editar seus dados
+  - Atualize seu nome e email
+  - Altere sua senha de forma segura
+  - Visualize suas informações atuais
 
 ---
 

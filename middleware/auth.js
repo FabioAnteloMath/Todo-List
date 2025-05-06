@@ -21,7 +21,8 @@ exports.authenticateToken = (req, res, next) => {
             req.user = {
                 id: user.userId,
                 role: user.role,
-                name: user.name
+                name: user.name,
+                email: user.email
             };
             
             next();

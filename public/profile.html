@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Lista de Tarefas</title>
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='2' fill='%233a86ff'/><path d='M6.5 12.5l-3-3 1-1 2 2 5-5 1 1z' fill='white'/></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-title {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .profile-subtitle {
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .profile-form {
+            margin-bottom: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .password-info {
+            color: #666;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+        
+        .notification {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .notification.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .notification.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .password-field-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .password-toggle:hover {
+            color: #333;
+        }
+
+        .password-toggle i {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <i class="fas fa-check-double"></i>
+                Lista de Tarefas
+            </a>
+            <div class="navbar-user">
+                <span class="navbar-username">Olá, <span id="user-name">Usuário</span></span>
+                <div class="admin-navbar">
+                    <a id="admin-panel" href="/admin.html" class="admin-nav-link" style="display: none;">
+                        <i class="fas fa-cogs"></i>
+                        Painel Admin
+                        <span class="notification-badge" style="display: none;">0</span>
+                    </a>
+                    <a id="profile-link" href="/profile.html" class="admin-nav-link active">
+                        <i class="fas fa-user-circle"></i>
+                        Meu Perfil
+                    </a>
+                    <button onclick="handleLogout()" class="admin-logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="profile-container">
+            <h1 class="profile-title">
+                <i class="fas fa-user-circle me-2"></i>Meu Perfil
+            </h1>
+            
+            <div class="notification" id="notification"></div>
+            
+            <h3 class="profile-subtitle">Informações Pessoais</h3>
+            <form id="profile-form" class="profile-form">
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Atualizar Informações</button>
+            </form>
+            
+            <h3 class="profile-subtitle">Alterar Senha</h3>
+            <form id="password-form" class="profile-form">
+                <div class="form-group">
+                    <label for="current-password">Senha Atual</label>
+                    <div class="password-field-container">
+                        <input type="password" class="form-control" id="current-password" name="current-password" required>
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('current-password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Nova Senha</label>
+                    <div class="password-field-container">
+                        <input type="password" class="form-control" id="new-password" name="new-password" required>
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('new-password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirmar Nova Senha</label>
+                    <div class="password-field-container">
+                        <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('confirm-password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="password-info">Para sua segurança, escolha uma senha forte com pelo menos 8 caracteres.</p>
+                <button type="submit" class="btn btn-primary" onclick="submitPasswordForm(event)">Alterar Senha</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        console.log('Script interno carregado');
+        const API_BASE_URL = 'http://localhost:8080/api';
+        
+        // Função para verificar se o usuário está logado e redirecionar se não estiver
+        async function checkAuth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Não autorizado');
+                }
+                
+                const data = await response.json();
+                document.getElementById('user-name').textContent = data.user.name;
+                
+                // Mostrar link para o painel admin se o usuário for admin
+                if (data.user.role === 'admin') {
+                    document.getElementById('admin-panel').style.display = 'flex';
+                }
+                
+                // Preencher o formulário com os dados do usuário
+                document.getElementById('name').value = data.user.name;
+                document.getElementById('email').value = data.user.email;
+            } catch (error) {
+                console.error('Erro ao verificar autenticação:', error);
+                window.location.href = '/login.html';
+            }
+        }
+        
+        // Executar ao carregar a página
+        window.addEventListener('DOMContentLoaded', checkAuth);
+        
+        // Função para fazer logout
+        function handleLogout() {
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+        
+        // Função para lidar com o envio do formulário de senha diretamente via onclick
+        async function submitPasswordForm(event) {
+            event.preventDefault();
+            console.log('Botão de alterar senha clicado');
+            
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Validações
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                alert('Todos os campos são obrigatórios');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('As novas senhas não coincidem');
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                alert('A nova senha deve ter pelo menos 8 caracteres');
+                return;
+            }
+            
+            try {
+                // Obter nome e email atuais
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                
+                console.log('Enviando requisição para atualizar senha');
+                
+                const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ 
+                        name, 
+                        email, 
+                        currentPassword, 
+                        newPassword 
+                    })
+                });
+                
+                const data = await response.json();
+                console.log('Resposta:', data);
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Erro ao atualizar senha');
+                }
+                
+                alert('Senha atualizada com sucesso!');
+                
+                // Limpar campos
+                document.getElementById('current-password').value = '';
+                document.getElementById('new-password').value = '';
+                document.getElementById('confirm-password').value = '';
+            } catch (error) {
+                console.error('Erro:', error);
+                alert(error.message || 'Erro ao atualizar senha');
+            }
+        }
+        
+        // Função para alternar a visibilidade da senha
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = event.currentTarget.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+    <script src="js/profile.js"></script>
+    <script>
+        console.log('Script após profile.js carregado');
+        // Teste para verificar se o script profile.js está funcionando
+        setTimeout(() => {
+            const passwordForm = document.getElementById('password-form');
+            console.log('Formulário de senha encontrado:', !!passwordForm);
+            console.log('Event listener no formulário de senha existe:', !!passwordForm._listeners);
+        }, 1000);
+    </script>
+</body>
+</html> 

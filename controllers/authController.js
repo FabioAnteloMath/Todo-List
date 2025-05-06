@@ -36,7 +36,16 @@ exports.login = async (req, res) => {
         if (!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(401).json({ error: 'Credenciais inválidas' });
         }
-        const token = jwt.sign({ userId: user.id, role: user.role, name: user.name }, 'seu_jwt_secret', { expiresIn: '1d' });
+        const token = jwt.sign(
+            { 
+                userId: user.id, 
+                role: user.role, 
+                name: user.name,
+                email: user.email 
+            }, 
+            'seu_jwt_secret', 
+            { expiresIn: '1d' }
+        );
         res.cookie('jwt', token, {
             httpOnly: true,
             secure: false,
@@ -76,27 +85,36 @@ exports.updateUser = async (req, res) => {
 
 exports.updateProfile = async (userId, name, email, currentPassword, newPassword) => {
     try {
+        console.log('Atualizando perfil:', { userId, name, email, temSenhaAtual: !!currentPassword, temSenhaNova: !!newPassword });
+        
         if (newPassword) {
             // Obter usuário para verificar a senha atual
             const user = await userModel.getUserById(userId);
+            console.log('Usuário encontrado:', !!user);
+            
             if (!user) {
                 return { error: 'Usuário não encontrado' };
             }
 
             // Verificar senha atual
             const validPassword = await bcrypt.compare(currentPassword, user.password);
+            console.log('Senha atual válida:', validPassword);
+            
             if (!validPassword) {
                 return { error: 'Senha atual incorreta' };
             }
 
             // Criptografar nova senha
             const hashedPassword = await bcrypt.hash(newPassword, 10);
+            console.log('Nova senha hash gerada');
             
             // Atualizar usuário com nova senha
             await userModel.updateUserProfile(userId, name, email, hashedPassword);
+            console.log('Perfil com nova senha atualizado com sucesso');
         } else {
             // Atualizar apenas nome e email
             await userModel.updateUserProfile(userId, name, email);
+            console.log('Perfil sem nova senha atualizado com sucesso');
         }
         
         return { success: true };
